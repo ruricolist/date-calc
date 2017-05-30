@@ -132,6 +132,7 @@
 
 (defparameter languages 11)
 (defparameter *language* 1) ; Default English
+(declaim (type (integer 0 11) *language*))
 
 ;; (defconstant num-of-lingos (1+ languages))
 
@@ -185,31 +186,22 @@
 	"huhtikuu" "toukokuu" "kesaekuu" "heinaekuu"
 	"elokuu" "syyskuu" "lokakuu" "marraskuu" "joulukuu"))
 
-(defparameter day-of-week-to-text (make-hash-table))
-(setf (gethash 0 day-of-week-to-text)
-      #("???" "???" "???" "???" "???" "???" "???" "???"))
-(setf (gethash 1 day-of-week-to-text)
-      #("???" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday" "Sunday"))
-(setf (gethash 2 day-of-week-to-text)
-      #("???" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi" "Dimanche"))
-(setf (gethash 3 day-of-week-to-text)
-      #("???" "Montag" "Dienstag" "Mittwoch" "Donnerstag" "Freitag" "Samstag" "Sonntag"))
-(setf (gethash 4 day-of-week-to-text)
-      #("???" "Lunes" "Martes" "Miercoles" "Jueves" "Viernes" "Sabado" "Domingo"))
-(setf (gethash 5 day-of-week-to-text)
-      #("???" "Segunda-feira" "Terca-feira" "Quarta-feira" "Quinta-feira" "Sexta-feira" "Sabado" "Domingo"))
-(setf (gethash 6 day-of-week-to-text)
-      #("???" "Maandag" "Dinsdag" "Woensdag" "Donderdag" "Vrijdag" "Zaterdag" "Zondag"))
-(setf (gethash 7 day-of-week-to-text)
-      #("???" "Lunedi" "Martedi" "Mercoledi" "Giovedi" "Venerdi" "Sabato" "Domenica"))
-(setf (gethash 8 day-of-week-to-text)
-      #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag"))
-(setf (gethash 9 day-of-week-to-text)
-      #("???" "mandag" "tisdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag"))
-(setf (gethash 10 day-of-week-to-text)
-      #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag"))
-(setf (gethash 11 day-of-week-to-text)
-      #("???" "maanantai" "tiistai" "keskiviikko" "torstai" "perjantai" "lauantai" "sunnuntai"))
+(defun day-of-week-to-text (n)
+  (declare (optimize speed))
+  (svref
+   #(#("???" "???" "???" "???" "???" "???" "???" "???")
+     #("???" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday" "Sunday")
+     #("???" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi" "Dimanche")
+     #("???" "Montag" "Dienstag" "Mittwoch" "Donnerstag" "Freitag" "Samstag" "Sonntag")
+     #("???" "Lunes" "Martes" "Miercoles" "Jueves" "Viernes" "Sabado" "Domingo")
+     #("???" "Segunda-feira" "Terca-feira" "Quarta-feira" "Quinta-feira" "Sexta-feira" "Sabado" "Domingo")
+     #("???" "Maandag" "Dinsdag" "Woensdag" "Donderdag" "Vrijdag" "Zaterdag" "Zondag")
+     #("???" "Lunedi" "Martedi" "Mercoledi" "Giovedi" "Venerdi" "Sabato" "Domenica")
+     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
+     #("???" "mandag" "tisdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
+     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
+     #("???" "maanantai" "tiistai" "keskiviikko" "torstai" "perjantai" "lauantai" "sunnuntai"))
+   n))
 
 (defparameter day-of-week-abbreviation (make-hash-table))
 (setf (gethash  0 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
@@ -247,7 +239,7 @@
 ;;;; Functions
 (defun decode-day-of-week (str)
   "Returns number of weekday. STR can partially name the Weekday. DOW is not CL conform."
-  (let ((week-vector (gethash *language* day-of-week-to-text))
+  (let ((week-vector (day-of-week-to-text *language*))
 	(i 0))
     (loop for weekday across week-vector
 	  until (search str weekday :test #'char-equal)
@@ -256,7 +248,7 @@
 
 (defun cl-decode-day-of-week (str)
   "Returns number of weekday. STR can partially name the Weekday. DOW is CL conform."
-  (let ((week-vector (gethash *language* day-of-week-to-text))
+  (let ((week-vector (day-of-week-to-text *language*))
 	(i 0))
     (loop for weekday across week-vector
 	  until (search str weekday :test #'char-equal)
@@ -717,7 +709,7 @@ the two dates Y1 M1 D1 H1 MI1 S1 and Y2 M2 D2 H2 MI2 S2."
 	    (11 (values day month year))
 	    (otherwise (values month day year)))) ; return english by default
       (format nil prn  ; make the return string
-	      (svref (gethash *language* day-of-week-to-text) ; Get Name of Weekday
+              (svref (day-of-week-to-text *language*) ; Get Name of Weekday
 		     (day-of-week year month day))
 	      a b c))))
 
