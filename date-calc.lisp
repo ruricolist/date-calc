@@ -189,16 +189,27 @@
   (declare (optimize speed))
   (svref
    #(#("???" "???" "???" "???" "???" "???" "???" "???")
+     ;; English
      #("???" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday" "Sunday")
+     ;; Français
      #("???" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi" "Dimanche")
+     ;; Deutsch
      #("???" "Montag" "Dienstag" "Mittwoch" "Donnerstag" "Freitag" "Samstag" "Sonntag")
-     #("???" "Lunes" "Martes" "Miercoles" "Jueves" "Viernes" "Sabado" "Domingo")
-     #("???" "Segunda-feira" "Terca-feira" "Quarta-feira" "Quinta-feira" "Sexta-feira" "Sabado" "Domingo")
+     ;; Español
+     #("???" "Lunes" "Martes" "Miércoles" "Jueves" "Viernes" "Sábado" "Domingo")
+     ;; Português
+     #("???" "Segunda-feira" "Terca-feira" "Quarta-feira" "Quinta-feira" "Sexta-feira" "Sábado" "Domingo")
+     ;; Dansk
      #("???" "Maandag" "Dinsdag" "Woensdag" "Donderdag" "Vrijdag" "Zaterdag" "Zondag")
-     #("???" "Lunedi" "Martedi" "Mercoledi" "Giovedi" "Venerdi" "Sabato" "Domenica")
-     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
-     #("???" "mandag" "tisdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
-     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "loerdag" "soendag")
+     ;; Italiano
+     #("???" "Lunedì" "Martedì" "Mercoledì" "Giovedì" "Venerdì" "Sabato" "Domenica")
+     ;; Norsk
+     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "lørdag" "søndag")
+     ;; Svenska
+     #("???" "måndag" "tisdag" "onsdag" "torsdag" "fredag" "lördag" "söndag")
+     ;; Dansk
+     #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "lørdag" "søndag")
+     ;; suomi
      #("???" "maanantai" "tiistai" "keskiviikko" "torstai" "perjantai" "lauantai" "sunnuntai"))
    n))
 
