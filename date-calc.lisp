@@ -114,7 +114,6 @@
 	   #:cl-standard-to-business
 	   #:cl-business-to-standard))
 
-(pushnew :date-calc *features*)
 (in-package #:date-calc)
 
 ;;;; Parameters
