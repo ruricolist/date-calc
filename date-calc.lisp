@@ -140,49 +140,60 @@
       #("???" "???" "???" "???"
 	"???" "???" "???" "???"
 	"???" "???" "???" "???" "???"))
+;; English
 (setf (gethash 1 month-to-text)
       #("???" "January" "February" "March"
 	"April" "May" "June" "July" "August"
 	"September" "October" "November" "December"))
+;; Français
 (setf (gethash 2 month-to-text)
-      #("???" "janvier" "fevrier" "mars"
+      #("???" "janvier" "février" "mars"
 	"avril" "mai" "juin" "juillet" "aout"
-	"septembre" "octobre" "novembre" "decembre"))
+	"septembre" "octobre" "novembre" "décembre"))
+;;; Deutsch
 (setf (gethash 3 month-to-text)
-      #("???" "Januar" "Februar" "Maerz"
+      #("???" "Januar" "Februar" "März"
 	"April" "Mai" "Juni" "Juli" "August"
 	"September" "Oktober" "November" "Dezember"))
+;;; Español
 (setf (gethash 4 month-to-text)
       #("???" "enero" "febrero" "marzo"
 	"abril" "mayo" "junio" "julio" "agosto"
 	"septiembre" "octubre" "noviembre" "diciembre"))
+;;; Português
 (setf (gethash 5 month-to-text)
-      #("???" "janeiro" "fevereiro" "marco"
+      #("???" "janeiro" "fevereiro" "março"
 	"abril" "maio" "junho" "julho" "agosto"
 	"setembro" "outubro" "novembro" "dezembro"))
+;;; Dansk
 (setf (gethash 6 month-to-text)
       #("???" "januari" "februari" "maart"
 	"april" "mei" "juni" "juli" "augustus"
 	"september" "october" "november" "december"))
+;;; Italiano
 (setf (gethash 7 month-to-text)
       #("???" "Gennaio" "Febbraio" "Marzo"
 	"Aprile" "Maggio" "Giugno" "Luglio" "Agosto"
 	"Settembre" "Ottobre" "Novembre" "Dicembre"))
+;;; Norsk
 (setf (gethash 8 month-to-text)
       #("???" "januar" "februar" "mars"
 	"april" "mai" "juni" "juli" "august"
 	"september" "oktober" "november" "desember"))
+;;; Svenska
 (setf (gethash 9 month-to-text)
       #("???" "januari" "februari" "mars"
 	"april" "maj" "juni" "juli" "augusti"
 	"september" "oktober" "november" "december"))
+;;; Dansk
 (setf (gethash 10 month-to-text)
       #("???" "januar" "februar" "marts"
 	"april" "maj" "juni" "juli" "august"
 	"september" "oktober" "november" "december"))
+;;; suomi
 (setf (gethash 11 month-to-text)
       #("???" "tammikuu" "helmikuu" "maaliskuu"
-	"huhtikuu" "toukokuu" "kesaekuu" "heinaekuu"
+	"huhtikuu" "toukokuu" "kesäkuu" "heinäkuu"
 	"elokuu" "syyskuu" "lokakuu" "marraskuu" "joulukuu"))
 
 (defun day-of-week-to-text (n)
