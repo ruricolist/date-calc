@@ -227,23 +227,24 @@
 (setf (gethash 10 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
 (setf (gethash 11 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
 
-(defparameter long-format (make-array '(12) :initial-contents
-  '(("~A, ~A ~A ~A" 10)                     ;   0  Default, the second value describes order:
-    ("~A, ~A ~A ~A" 10)                     ;   1  English    11=DMY 10=MDY see #'date-to-text-long     
-    ("~A ~A ~A ~A"  10)                     ;   2  Francais    
-    ("~A, den ~A ~A ~A" 11)                 ;   3  Deutsch     
-    ("~A, ~A de ~A de ~A" 10)               ;   4  Espanol     
-    ("~A, dia ~A de ~A de ~A" 10)           ;   5  Portugues   
-    ("~A, ~A ~A ~A" 10)                     ;   6  Nederlands  
-    ("~A, ~A ~A ~A" 10)                     ;   7  Italiano    
-    ("~A, ~A. ~A ~A" 10)                    ;   8  Norsk       
-    ("~A, ~A ~A ~A" 10)                     ;   9  Svenska     
-    ("~A, ~A. ~A ~A" 10)                    ;  10  Dansk       
-    ("~A, ~A. ~A ta ~A" 10))))              ;  11  suomi       
+(defparameter long-format
+  (make-array '(12) :initial-contents
+              '(("~A, ~A ~A ~A" 10) ;   0  Default, the second value describes order:
+                ("~A, ~A ~A ~A" 10) ;   1  English    11=DMY 10=MDY see #'date-to-text-long
+                ("~A ~A ~A ~A"  10) ;   2  Français
+                ("~A, den ~A ~A ~A" 11)       ;   3  Deutsch
+                ("~A, ~A de ~A de ~A" 10)     ;   4  Español
+                ("~A, dia ~A de ~A de ~A" 10) ;   5  Portugues
+                ("~A, ~A ~A ~A" 10)           ;   6  Nederlands
+                ("~A, ~A ~A ~A" 10)           ;   7  Italiano
+                ("~A, ~A. ~A ~A" 10)          ;   8  Norsk
+                ("~A, ~A ~A ~A" 10)           ;   9  Svenska
+                ("~A, ~A. ~A ~A" 10)          ;  10  Dansk
+                ("~A, ~A. ~A ta ~A" 10))))              ;  11  suomi
 
 (defparameter language-to-text
-  (vector "???" "English" "Francais" "Deutsch" "Espanol"
-	  "Portugues" "Nederlands" "Italiano" "Norsk"
+  (vector "???" "English" "Français" "Deutsch" "Español"
+	  "Português" "Nederlands" "Italiano" "Norsk"
 	  "Svenska" "Dansk" "suomi"))
 
 ;;;; Functions
