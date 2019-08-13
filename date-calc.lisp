@@ -195,6 +195,18 @@
       #("???" "tammikuu" "helmikuu" "maaliskuu"
 	"huhtikuu" "toukokuu" "kesäkuu" "heinäkuu"
 	"elokuu" "syyskuu" "lokakuu" "marraskuu" "joulukuu"))
+;;; Magyar
+(setf (gethash 12 month-to-text)
+      #("???" "Január" "Február" "Március" "Április" "Május" "Június"
+        "Július" "Augusztus" "Szeptember" "Október" "November" "December"))
+;;; polski
+(setf (gethash 13 month-to-text)
+      #("???" "Styczeń" "Luty" "Marzec" "Kwiecień" "Maj" "Czerwiec"
+        "Lipiec" "Sierpień" "Wrzesień" "Październik" "Listopad" "Grudzień"))
+;;; Romaneste
+(setf (gethash 14 month-to-text)
+      #("???" "Ianuarie" "Februarie" "Martie" "Aprilie" "Mai" "Iunie"
+        "Iulie" "August" "Septembrie" "Octombrie" "Noiembrie" "Decembrie"))
 
 (defun day-of-week-to-text (n)
   (declare (optimize speed))
@@ -221,7 +233,13 @@
      ;; Dansk
      #("???" "mandag" "tirsdag" "onsdag" "torsdag" "fredag" "lørdag" "søndag")
      ;; suomi
-     #("???" "maanantai" "tiistai" "keskiviikko" "torstai" "perjantai" "lauantai" "sunnuntai"))
+     #("???" "maanantai" "tiistai" "keskiviikko" "torstai" "perjantai" "lauantai" "sunnuntai")
+     ;; Magyar
+     #("???" "hétfõ" "kedd" "szerda" "csütörtök" "péntek" "szombat" "vasárnap")
+     ;; polska
+     #("???" "poniedziałek" "wtorek" "środa" "czwartek" "piątek" "sobota" "niedziela")
+     ;; Romaneste
+     #("???" "Luni" "Marţi" "Miercuri" "Joi" "Vineri" "Sâmbătă" "Duminică"))
    n))
 
 (defparameter day-of-week-abbreviation (make-hash-table))
@@ -237,26 +255,33 @@
 (setf (gethash  9 day-of-week-abbreviation) #("??" "Mo" "Ti" "On" "To" "Fr" "Lo" "So"))
 (setf (gethash 10 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
 (setf (gethash 11 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
+(setf (gethash 12 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
+(setf (gethash 13 day-of-week-abbreviation) #("???" "Pn" "Wt" "Śr" "Cz" "Pt" "So" "Ni"))
+(setf (gethash 14 day-of-week-abbreviation) #("" "" "" "" "" "" "" ""))
 
 (defparameter long-format
-  (make-array '(12) :initial-contents
-              '(("~A, ~A ~A ~A" 10) ;   0  Default, the second value describes order:
-                ("~A, ~A ~A ~A" 10) ;   1  English    11=DMY 10=MDY see #'date-to-text-long
-                ("~A ~A ~A ~A"  10) ;   2  Français
-                ("~A, den ~A ~A ~A" 11)       ;   3  Deutsch
-                ("~A, ~A de ~A de ~A" 10)     ;   4  Español
-                ("~A, dia ~A de ~A de ~A" 10) ;   5  Portugues
-                ("~A, ~A ~A ~A" 10)           ;   6  Nederlands
-                ("~A, ~A ~A ~A" 10)           ;   7  Italiano
-                ("~A, ~A. ~A ~A" 10)          ;   8  Norsk
-                ("~A, ~A ~A ~A" 10)           ;   9  Svenska
-                ("~A, ~A. ~A ~A" 10)          ;  10  Dansk
-                ("~A, ~A. ~A ta ~A" 10))))              ;  11  suomi
+  (make-array '(15) :initial-contents
+              '(("~A, ~A ~A ~A" :mdy) ;   0  Default, the second value describes order:
+                ("~A, ~A ~A ~A" :mdy) ;   1  English    see #'date-to-text-long
+                ("~A ~A ~A ~A"  :mdy) ;   2  Français
+                ("~A, den ~A ~A ~A" :dmy)       ;   3  Deutsch
+                ("~A, ~A de ~A de ~A" :mdy)     ;   4  Español
+                ("~A, dia ~A de ~A de ~A" :mdy) ;   5  Portugues
+                ("~A, ~A ~A ~A" :mdy)           ;   6  Nederlands
+                ("~A, ~A ~A ~A" :mdy)           ;   7  Italiano
+                ("~A, ~A. ~A ~A" :mdy)          ;   8  Norsk
+                ("~A, ~A ~A ~A" :mdy)           ;   9  Svenska
+                ("~A, ~A. ~A ~A" :mdy)          ;  10  Dansk
+                ("~A, ~A. ~Ata ~A" :mdy) ;  11  suomi
+                ("~A. ~A ~A., ~A" :ymd)      ;12 Magyar
+                ("~A, ~A ~A ~A" :mdy)        ;13 polski
+                ("~A ~A ~A ~A" :mdy)         ;14 Romaneste
+                )))
 
 (defparameter language-to-text
   (vector "???" "English" "Français" "Deutsch" "Español"
 	  "Português" "Nederlands" "Italiano" "Norsk"
-	  "Svenska" "Dansk" "suomi"))
+	  "Svenska" "Dansk" "suomi" "Magyar" "polski" "Romaneste"))
 
 ;;;; Functions
 (defun decode-day-of-week (str)
@@ -708,12 +733,14 @@ the two dates Y1 M1 D1 H1 MI1 S1 and Y2 M2 D2 H2 MI2 S2."
 
 (defun date-to-text (year month day)
   "Return a pretty print string of YEAR MONTH DAY in DOW-TXT(SHORT) DAY MONTH YEAR with a little bit of sorting for language."
-  (let ((prn (first (aref long-format *language*)))) ; get print format
+  (let* ((result (aref long-format *language*))
+         (prn (first result))) ; get print format
     (multiple-value-bind (a b c) ; What order is the date DMY , MDY ....
-	(let ((k (second (aref long-format *language*))))
+	(let ((k (second result)))
 	  (case k   ; return the order of DMY
-	    (10 (values month day year))
-	    (11 (values day month year))
+	    (:mdy (values month day year))
+	    (:dmy (values day month year))
+            (:ymd (values year month day))
 	    (otherwise (values month day year)))) ; return english by default
       (format nil prn  ; make the return string
 	      (svref (gethash *language* day-of-week-abbreviation) ; Get Name of Weekday
@@ -722,12 +749,14 @@ the two dates Y1 M1 D1 H1 MI1 S1 and Y2 M2 D2 H2 MI2 S2."
 
 (defun date-to-text-long (year month day)
   "Return a pretty print string of YEAR MONTH DAY in DOW-TXT(LONG) DAY MONTH YEAR with a little bit of sorting for language."
-  (let ((prn (first (aref long-format *language*)))) ; get print format
+  (let* ((result (aref long-format *language*))
+         (prn (first result))) ; get print format
     (multiple-value-bind (a b c) ; What order is the date DMY , MDY ....
-	(let ((k (second (aref long-format *language*))))
+	(let ((k (second result)))
 	  (case k   ; return the order of DMY
-	    (10 (values month day year))
-	    (11 (values day month year))
+	    (:mdy (values month day year))
+	    (:dmy (values day month year))
+            (:ymd (values year month day))
 	    (otherwise (values month day year)))) ; return english by default
       (format nil prn  ; make the return string
               (svref (day-of-week-to-text *language*) ; Get Name of Weekday
