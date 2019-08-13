@@ -131,7 +131,6 @@
 
 (defparameter languages 11)
 (defparameter *language* 1) ; Default English
-(declaim (type (integer 0 11) *language*))
 
 ;; (defconstant num-of-lingos (1+ languages))
 
