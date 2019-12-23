@@ -12,7 +12,7 @@
   :description "Test suite for date-calc."
   :author "Paul M. Rodriguez <pmr@ruricolist.com>"
   :license "MIT"
-  :depends-on ("date-calc" "fiveam")
+  :depends-on ("date-calc" "fiveam" "serapeum")
   :perform (test-op (o c) (symbol-call :date-calc/test :run-date-calc-tests))
   :pathname "test/"
   :serial t
